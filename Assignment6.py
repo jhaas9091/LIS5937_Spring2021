@@ -16,7 +16,7 @@ class Rectangle:
         return "({0}, {1}, {2})".format(self.corner, self.width, self.height)
 
 class Point:
-    def __init__(self, x=0, y=0):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
 
