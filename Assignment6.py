@@ -3,7 +3,6 @@ Julie Haas
 LIS 5937
 Spring 2021"""
 
-
 class Rectangle:
     """ A class to manufacture rectangle objects """
 
@@ -81,8 +80,6 @@ def offset_rectangle(rect, dx, dy):
 
     #print ("**Rectangle offset**")
     return offset
-
-
 
 box = Rectangle(Point(0, 0), 100, 200)
 bomb = Rectangle(Point(100, 80), 5, 10) # In my video game
