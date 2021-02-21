@@ -61,19 +61,6 @@ def offset_rectangle(rect, dx, dy):
     Input parameters: rect, dx, dy
     Return value: instance of Rectangle"""
 
-    r = Rectangle(0,0,0)
-    r.width = width
-    r.height = height
-
-    posn = Point()
-    posn.x = x
-    posn.y = y
-
-    r.corner = posn
-
-    #print("Rectangle created")
-    return r
-
     x = rect.corner.x + dx
     y = rect.corner.y + dy
     offset = create_rectangle(x, y, rect.width, rect.height)
