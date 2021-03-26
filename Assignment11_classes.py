@@ -1,3 +1,8 @@
+"""Module 10 Assignment
+Julie Haas
+LIS 5937
+Spring 2021"""
+
 from dataclasses import dataclass
 
 @dataclass
@@ -18,22 +23,3 @@ class Ages:
     ages70to79: int
     ages80plus: int
     agesUnknown: int
-
-'''import datetime
-from dataclasses import dataclass
-
-@dataclass
-class Product:
-    id: str
-    parent: str
-    title: str
-    category: str
-
-@dataclass
-class Review:
-    id: str
-    customer_id: str
-    stars: int
-    headline: str
-    body: str
-    date: datetime.datetime'''
