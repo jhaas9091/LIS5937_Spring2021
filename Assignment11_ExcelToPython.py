@@ -1,3 +1,8 @@
+"""Module 10 Assignment
+Julie Haas
+LIS 5937
+Spring 2021"""
+
 from openpyxl import load_workbook
 
 from Assignment11_classes import Covid, Ages
@@ -28,12 +33,10 @@ for row in sheet.iter_rows(min_row=2, values_only=True):
                     agesUnknown = row[Age_Unkn])
     age_s.append(age)
 
+# Iterate through each county and print out data
 for i in range(0, 68):
     if i < 68:
         print(pui_s[i])
+        #print(age_s[i])
     else:
         break
-
-
-
-
