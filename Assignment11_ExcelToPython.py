@@ -4,13 +4,20 @@ LIS 5937
 Spring 2021"""
 
 from openpyxl import load_workbook
+import pandas as pd
 
 from Assignment11_classes import Covid, Ages
 from Assignment11_mapping import COUNTY, COUNTYNAME, PUIsTotal, Age_0_9, Age_10_19, Age_20_29, \
     Age_30_39, Age_40_49, Age_50_59, Age_60_69, Age_70_79, Age_80plus, Age_Unkn
 
-# Will only be reading the spreadsheet, not editing it
-workbook = load_workbook(filename='COVID19_03242020_ByCounty.xlsx', read_only=True)
+# Read and sort data from original Excel sheet, then write it to new file
+df = pd.read_excel(r'COVID19_03242020_ByCounty.xlsx', usecols ='E:Y')
+workbook = pd.DataFrame(df)
+sorted_workbook = workbook.sort_values(by='COUNTYNAME')
+sorted_workbook.to_excel("COVID19_03242020_ByCounty_Sorted.xlsx", sheet_name = 'SortedByCounty')
+
+# Read the sorted worksheet
+workbook = load_workbook(filename='COVID19_03242020_ByCounty_Sorted.xlsx', read_only=False)
 sheet = workbook.active
 
 pui_s = []
@@ -40,3 +47,4 @@ for i in range(0, 68):
         #print(age_s[i])
     else:
         break
+
