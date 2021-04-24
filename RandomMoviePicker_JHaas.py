@@ -14,7 +14,8 @@ class Window(QWidget):
     def __init__(self, parent = None):
         super(Window, self).__init__(parent)
         self.initUI()
-        self.df = pd.read_excel('Movie_List.xlsx')
+        self.xls = 'Movie_List.xlsx'
+        self.df = pd.read_excel(self.xls)
 
     def initUI(self):
         hbox = QHBoxLayout()
@@ -23,7 +24,7 @@ class Window(QWidget):
         vbox.addLayout(hbox)
         vbox.addLayout(hbox2)
         self.setLayout(vbox)
-        self.setGeometry(500,500,800,300)
+        self.setGeometry(500, 500, 800, 300)  # (xpos, ypos, width, height)
         self.setWindowTitle('Movie Picker Program')
 
         listbtn = QPushButton("Show List of Movies")  # show list button is 1/2 of one row
@@ -53,9 +54,13 @@ class Window(QWidget):
         self.show()
 
     def random_picker(self):
-        mbox = QMessageBox()  # enable pop-out message
+        df1 = pd.DataFrame(self.df)
+        df1.set_index('Title')  # remove index number from output
 
-        message = str(self.df.sample(n=1, replace=False, random_state=None))
+        mbox = QMessageBox()  # enable pop-out message
+        random = (self.df.sample(n=1, random_state=None))  # select 1 random row from movie list
+        message = random.to_string(index=False)  # convert DF object to string
+
         mbox.setText(message)  # pull 1 random row from movie list and show in pop-out window
 
         mbox.setWindowTitle("Random Pick")  # set title of pop-out window
@@ -64,9 +69,12 @@ class Window(QWidget):
         mbox.exec_()
 
     def list_movies(self):
+        df1 = pd.DataFrame(self.df)
+        df1.set_index('Title')  # remove index number from output
+
         mbox = QMessageBox()  # enable pop-out message
 
-        message = str(self.df)  # turn dataframe into readable string for message window
+        message = df1.to_string(index=False)  # convert DF object to string
         mbox.setText(message)
 
         mbox.setWindowTitle("List of Movies")  # set title of pop-out window
@@ -99,7 +107,7 @@ class Window(QWidget):
                 if ok:  # accept user input and add it as a new row in excel file
                     new_row = {'Title': title, 'Streaming_Service': stream}
                     self.df = self.df.append(new_row, ignore_index=True, verify_integrity=True)
-                    self.df.to_excel('Movie&TV_List.xlsx', index=False)
+                    self.df.to_excel(self.xls, index=False)
 
                     mbox.setWindowTitle("Success!")  # confirm successful entry
                     mbox.setText("Title has been added.")
@@ -114,7 +122,7 @@ class Window(QWidget):
             if any(self.df['Title'] == title):  # check to see if title is in the list
                 title_row = self.df[self.df['Title'] == title].index
                 self.df.drop(title_row, inplace=True)
-                self.df.to_excel('Movie&TV_List.xlsx', index=False)
+                self.df.to_excel(self.xls, index=False)
 
                 mbox.setWindowTitle("Success!")  # confirm removal of title
                 mbox.setText("Title has been removed")
