@@ -10,14 +10,20 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget, QMessageBox, QPushButton, QHBoxLayout, QVBoxLayout, QInputDialog
 import matplotlib.pyplot as plt
 
+
 class Window(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
+        # initializes the UI window and the DataFrame object from excel file.
+        # excel file name can be changed here.
+
         super(Window, self).__init__(parent)
         self.initUI()
         self.xls = 'Movie_List.xlsx'
         self.df = pd.read_excel(self.xls)
 
     def initUI(self):
+        # sets up the look of the GUI
+
         hbox = QHBoxLayout()
         hbox2 = QHBoxLayout()
         vbox = QVBoxLayout()
@@ -54,8 +60,7 @@ class Window(QWidget):
         self.show()
 
     def random_picker(self):
-        df1 = pd.DataFrame(self.df)
-        df1.set_index('Title')  # remove index number from output
+        # opens new window and displays random selection
 
         mbox = QMessageBox()  # enable pop-out message
         random = (self.df.sample(n=1, random_state=None))  # select 1 random row from movie list
@@ -69,12 +74,11 @@ class Window(QWidget):
         mbox.exec_()
 
     def list_movies(self):
-        df1 = pd.DataFrame(self.df)
-        df1.set_index('Title')  # remove index number from output
+        # opens new window and displays full list of movies on the list
 
         mbox = QMessageBox()  # enable pop-out message
 
-        message = df1.to_string(index=False)  # convert DF object to string
+        message = self.df.to_string(index=False)  # convert DF object to string
         mbox.setText(message)
 
         mbox.setWindowTitle("List of Movies")  # set title of pop-out window
@@ -83,6 +87,8 @@ class Window(QWidget):
         mbox.exec_()
 
     def analyze_list(self):
+        # opens a Matplotlib pie chart
+
         fig1, ax1 = plt.subplots()  # will allow me to join two pie charts into one
         df1 = pd.value_counts(self.df['Streaming_Service'].values, sort=True).plot.pie()  # shows pie chart with name labels
         df2 = pd.value_counts(self.df['Streaming_Service'].values, sort=True)
@@ -93,6 +99,9 @@ class Window(QWidget):
         plt.show()
 
     def add_movie(self):
+        # asks for input: MovieTitle and StreamingService and adds it to list
+        # will check for duplicates and cancel if title exists.
+
         mbox = QMessageBox()  # enable pop-out message
 
         title, ok = QInputDialog.getText(self, 'Add Movie Title', 'Enter Movie Title:')  # ask user for input
@@ -115,6 +124,9 @@ class Window(QWidget):
                     mbox.exec_()
 
     def remove_movie(self):
+        # asks for input: MovieTitle and removes it from list
+        # will check for title. cancels if title doesn't exist.
+
         mbox = QMessageBox()  # enable pop-out message
 
         title, ok = QInputDialog.getText(self, 'Add Movie Title', 'Enter Movie Title:')  # ask for user input
@@ -134,8 +146,9 @@ class Window(QWidget):
                 mbox.setStandardButtons(QMessageBox.Ok)
                 mbox.exec_()
 
-
     def exit_program():
+        # extra quit option instead of closing with X
+
         sys.exit()
 
 
